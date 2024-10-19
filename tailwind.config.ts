@@ -49,7 +49,12 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+			styles:{
+				"yellow-light": "#DBC170",
+				"yellow": "#B8952E",
+				"yellow-dark": "#846F2E",
+			}
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

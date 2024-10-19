@@ -38,7 +38,8 @@
 			},
 			"a11y":{
 				"useValidAnchor":"warn",
-				"useButtonType":"off"
+				"useButtonType":"off",
+				"noLabelWithoutControl": "warn"
 			},
 			"correctness":{
 				"useExhaustiveDependencies":"warn",
