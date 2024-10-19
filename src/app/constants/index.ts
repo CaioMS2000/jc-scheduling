@@ -8,4 +8,6 @@ export const workingPeriodLabels = [
     'Manhã',
     'Tarde',
     'Noite',
-]
+] as const
+
+type Period = (typeof workingPeriodLabels)[number]
