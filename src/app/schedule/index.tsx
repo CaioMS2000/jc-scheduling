@@ -2,7 +2,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { workingHours, workingPeriodLabels } from '../constants'
 import { Button } from '@/components/ui/button'
-import { SquareUser } from 'lucide-react'
+import { Calendar, SquareUser } from 'lucide-react'
 import { InputElement, InputIcon, InputRoot } from '@/components/input'
 
 export default function Schedule() {
@@ -16,11 +16,13 @@ export default function Schedule() {
                     <p>
                         <strong>Data</strong>
                     </p>
-                    <Input
-                        className="date-input bg-transparent border-zinc-700 "
-                        type="date"
-                        defaultValue={new Date().toISOString().split('T')[0]}
-                    />
+                    <InputRoot className="p-2">
+                        <InputIcon>
+                            <Calendar size={40}
+                                className="text-styles-yellow" />
+                        </InputIcon>
+                        <InputElement type='date' defaultValue={new Date().toISOString().split('T')[0]} />
+                    </InputRoot>
                 </Label>
                 <div className="flex flex-col gap-3 justify-center mb-5">
                     <h3>
@@ -45,15 +47,22 @@ export default function Schedule() {
                     ))}
                 </div>
                 <Label className="text-zinc-300 flex flex-col gap-2 mb-5">
-                    <p className='mb-2'>
+                    <p className="mb-2">
                         <strong>Cliente</strong>
                     </p>
-                    <InputRoot className='p-2'>
-                    <InputIcon><SquareUser size={40} className='text-styles-yellow' /></InputIcon>
-                        <InputElement placeholder='Nome do cliente' />
+                    <InputRoot className="p-2">
+                        <InputIcon>
+                            <SquareUser
+                                size={40}
+                                className="text-styles-yellow"
+                            />
+                        </InputIcon>
+                        <InputElement placeholder="Nome do cliente" />
                     </InputRoot>
                 </Label>
-                <Button type='submit' className='bg-styles-yellow text-black'>AGENDAR</Button>
+                <Button type="submit" className="bg-styles-yellow text-black">
+                    <strong>AGENDAR</strong>
+                </Button>
             </form>
         </>
     )
