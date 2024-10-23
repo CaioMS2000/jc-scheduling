@@ -1,22 +1,22 @@
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { workingHours, workingPeriodLabels } from '../constants'
 import { Button } from '@/components/ui/button'
 import { Calendar, SquareUser } from 'lucide-react'
 import { InputElement, InputIcon, InputRoot } from '@/components/input'
+import UsernameInput from './components/usernameInput'
 
 export default function Schedule() {
     return (
         <>
-            <form className="bg-zinc-800 w-full max-w-[498px] p-10 flex flex-col gap-2 md:rounded-b-xl">
+            <form className="bg-zinc-800 w-full max-w-[498px] p-10 flex flex-col gap-2 md:rounded-xl md:h-full">
                 <h2 className="text-lg mb-5">
                     <strong>Agende um atendimento</strong>
                 </h2>
-                <Label className="text-zinc-300 flex flex-col gap-2 mb-5">
+                <Label className="text-zinc-400 flex flex-col gap-2 mb-5">
                     <p>
                         <strong>Data</strong>
                     </p>
-                    <InputRoot className="p-2">
+                    <InputRoot className="p-2 max-w-60">
                         <InputIcon>
                             <Calendar size={40}
                                 className="text-styles-yellow" />
@@ -37,7 +37,8 @@ export default function Schedule() {
                                 {period.map(hour => (
                                     <Button
                                         key={hour}
-                                        className="bg-zinc-700 border-2 border-zinc-500 font-light w-16 lg:w-20 focus:border-styles-yellow focus:text-styles-yellow"
+                                        // disabled
+                                        className="bg-zinc-700 border-2 border-zinc-500 font-light text-zinc-200 w-16 lg:w-20 focus:border-styles-yellow focus:text-styles-yellow"
                                     >
                                         {hour} : 00
                                     </Button>
@@ -50,7 +51,7 @@ export default function Schedule() {
                     <p className="mb-2">
                         <strong>Cliente</strong>
                     </p>
-                    <InputRoot className="p-2">
+                    {/* <InputRoot className="p-2">
                         <InputIcon>
                             <SquareUser
                                 size={40}
@@ -58,7 +59,8 @@ export default function Schedule() {
                             />
                         </InputIcon>
                         <InputElement placeholder="Nome do cliente" />
-                    </InputRoot>
+                    </InputRoot> */}
+                    <UsernameInput />
                 </Label>
                 <Button type="submit" className="bg-styles-yellow text-black">
                     <strong>AGENDAR</strong>

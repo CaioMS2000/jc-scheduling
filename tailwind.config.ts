@@ -54,13 +54,19 @@ const config: Config = {
 				"yellow-light": "#DBC170",
 				"yellow": "#B8952E",
 				"yellow-dark": "#846F2E",
+				"purple": "#752995",
+				"purple-dark": "#5c2076",
+				"purple-light": "#a438d1",
 			}
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		fontFamily:{
+			catamaran: ['Catamaran', 'sans-serif'],
+		}
   	}
   },
   plugins: [require("tailwindcss-animate")],

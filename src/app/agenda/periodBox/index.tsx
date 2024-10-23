@@ -21,11 +21,11 @@ const PeriodBox = React.forwardRef<HTMLDivElement, PeriodBoxProps>(
 
         return (
             <div
-                className={cn('flex flex-col border border-zinc-500 rounded-md text-muted-foreground', className)}
+                className={cn('flex flex-col border border-zinc-700 rounded-md text-muted-foreground', className)}
                 ref={ref}
                 {...props}
             >
-                <header className='w-full flex justify-between items-center p-2 border-b-[1px] border-zinc-500'>
+                <header className='w-full flex justify-between items-center p-2 border-b-[1px] border-zinc-700'>
                     <span className="inline-flex items-center gap-2">
                         <PeriodIcon className='text-styles-yellow' />
                         {period}

@@ -6,8 +6,8 @@ import { PeriodBox } from './periodBox'
 export default function Agenda() {
     return (
         <>
-            <div className="bg-zinc-900 w-full max-w-[498px] p-10 flex flex-col gap-2 md:rounded-b-xl">
-                <header className='flex flex-col gap-2 md:flex-row'>
+            <div className="bg-zinc-900 w-full max-w-[498px] p-10 flex flex-col gap-2 md:rounded-xl md:min-h-screen md:flex-1 md:max-w-[800px]">
+                <header className='flex flex-col gap-2 mb-10 md:flex-row md:justify-between'>
                     <span>
                         <h2 className='text-xl'>
                             <strong>Sua agenda</strong>
@@ -29,9 +29,9 @@ export default function Agenda() {
                         />
                     </InputRoot>
                 </header>
-                <main>
+                <main className='flex-1 flex flex-col gap-3'>
                     {workingPeriodLabels.map((period, i) => {
-                        return <PeriodBox key={period} period={period} className="mb-2"></PeriodBox>
+                        return <PeriodBox key={period} period={period} className=""></PeriodBox>
                     })}
                 </main>
             </div>
