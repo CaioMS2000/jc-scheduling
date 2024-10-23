@@ -18,10 +18,17 @@ export default function Schedule() {
                     </p>
                     <InputRoot className="p-2 max-w-60">
                         <InputIcon>
-                            <Calendar size={40}
-                                className="text-styles-yellow" />
+                            <Calendar
+                                size={40}
+                                className="text-styles-purple"
+                            />
                         </InputIcon>
-                        <InputElement type='date' defaultValue={new Date().toISOString().split('T')[0]} />
+                        <InputElement
+                            type="date"
+                            defaultValue={
+                                new Date().toISOString().split('T')[0]
+                            }
+                        />
                     </InputRoot>
                 </Label>
                 <div className="flex flex-col gap-3 justify-center mb-5">
@@ -38,7 +45,7 @@ export default function Schedule() {
                                     <Button
                                         key={hour}
                                         // disabled
-                                        className="bg-zinc-700 border-2 border-zinc-500 font-light text-zinc-200 w-16 lg:w-20 focus:border-styles-yellow focus:text-styles-yellow"
+                                        className="bg-zinc-700 border-2 border-zinc-500 font-light text-zinc-200 w-16 lg:w-20 focus:border-styles-purple focus:text-styles-purple"
                                     >
                                         {hour} : 00
                                     </Button>
@@ -51,18 +58,9 @@ export default function Schedule() {
                     <p className="mb-2">
                         <strong>Cliente</strong>
                     </p>
-                    {/* <InputRoot className="p-2">
-                        <InputIcon>
-                            <SquareUser
-                                size={40}
-                                className="text-styles-yellow"
-                            />
-                        </InputIcon>
-                        <InputElement placeholder="Nome do cliente" />
-                    </InputRoot> */}
                     <UsernameInput />
                 </Label>
-                <Button type="submit" className="bg-styles-yellow text-black">
+                <Button type="submit" className="bg-styles-purple text-white">
                     <strong>AGENDAR</strong>
                 </Button>
             </form>

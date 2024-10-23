@@ -17,22 +17,31 @@ const PeriodBox = React.forwardRef<HTMLDivElement, PeriodBoxProps>(
         const periodIndex = workingPeriodLabels.indexOf(period)
         const PeriodIcon = periodIconsOptions[periodIndex]
         const periodAllHours = workingHours[periodIndex]
-        const [firstHour, lastHour] = [periodAllHours[0], periodAllHours[periodAllHours.length - 1]]
+        const [firstHour, lastHour] = [
+            periodAllHours[0],
+            periodAllHours[periodAllHours.length - 1],
+        ]
 
         return (
             <div
-                className={cn('flex flex-col border border-zinc-700 rounded-md text-muted-foreground', className)}
+                className={cn(
+                    'flex flex-col border border-zinc-700 rounded-md text-muted-foreground',
+                    className
+                )}
                 ref={ref}
                 {...props}
             >
-                <header className='w-full flex justify-between items-center p-2 border-b-[1px] border-zinc-700'>
+                <header className="w-full flex justify-between items-center p-2 border-b-[1px] border-zinc-700">
                     <span className="inline-flex items-center gap-2">
-                        <PeriodIcon className='text-styles-yellow' />
+                        <PeriodIcon className="text-styles-purple" />
                         {period}
                     </span>
-                    <p>{firstHour.toString().padStart(2, '0')}h-{lastHour.toString().padStart(2, '0')}h</p>
+                    <p>
+                        {firstHour.toString().padStart(2, '0')}h-
+                        {lastHour.toString().padStart(2, '0')}h
+                    </p>
                 </header>
-                <section className='p-5'>
+                <section className="p-5">
                     <div className="inline-flex gap-2">
                         <strong>13:00</strong>
                         <p>Caio Marques</p>

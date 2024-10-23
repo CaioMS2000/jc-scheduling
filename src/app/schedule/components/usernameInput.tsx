@@ -10,7 +10,7 @@ export default function UsernameInput() {
     return (
         <InputRoot className="p-2" isFocused={isFocused}>
             <InputIcon>
-                <SquareUser size={40} className="text-styles-yellow" />
+                <SquareUser size={40} className="text-styles-purple" />
             </InputIcon>
             <InputElement
                 placeholder="Nome do cliente"
