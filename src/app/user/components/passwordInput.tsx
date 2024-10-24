@@ -3,8 +3,13 @@
 import { InputElement, InputIcon, InputRoot } from '@/components/input'
 import { KeyRound } from 'lucide-react'
 import { useState } from 'react'
+import { UseFormRegisterReturn } from 'react-hook-form'
 
-export default function PasswordInput() {
+interface PasswordInputProps {
+    hookFormReference: UseFormRegisterReturn
+}
+
+export default function PasswordInput({hookFormReference}: PasswordInputProps) {
     const [isFocused, setIsFocused] = useState(false)
 
     return (
@@ -17,6 +22,7 @@ export default function PasswordInput() {
                 className="font-bold text-white text-lg"
                 placeholder="Senha"
                 onIsFocused={setIsFocused}
+                {...hookFormReference}
             />
         </InputRoot>
     )

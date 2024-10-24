@@ -9,8 +9,7 @@ export interface InputRootProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const InputRoot = React.forwardRef<HTMLDivElement, InputRootProps>(
     ({ className, children, isFocused, ...props }, ref) => {
-        console.log(isFocused)
-        console.log(!!isFocused)
+
         return (
             <div
                 className={cn(
