@@ -44,7 +44,7 @@ const PeriodBox = React.forwardRef<HTMLDivElement, PeriodBoxProps>(
                     </p>
                 </header>
                 <section className="p-5 flex flex-col gap-2">
-                    {schedules.map(schedule => {
+                    {schedules.sort((a, b) => a.date.getTime() - b.date.getTime()).map(schedule => {
                         const hour = schedule.date.getHours().toString().padStart(2, '0')
 
                         return (

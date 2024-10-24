@@ -35,7 +35,6 @@ export default function Agenda() {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedDate(event.target.value);
-        console.log(event.target.value);
       };
 
 
@@ -66,7 +65,7 @@ export default function Agenda() {
                     </InputRoot>
                 </header>
                 <main className="flex-1 flex flex-col gap-3">
-                    {schedules && workingPeriodLabels.map((period, i) => {
+                    {Array.isArray(schedules) && workingPeriodLabels.map((period, i) => {
                         const workingHoursOfPeriod = workingHours[i]
                         const schedulesOfPeriod = schedules.filter(schedule => workingHoursOfPeriod.includes(schedule.date.getHours()))
 

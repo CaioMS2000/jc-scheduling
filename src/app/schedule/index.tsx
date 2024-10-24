@@ -12,6 +12,7 @@ import { getCookie } from 'cookies-next'
 import { useEffect, useState } from 'react'
 import TimeButton from './components/timeButton'
 import { queryClient } from '@/lib/react-query'
+import { Schedule } from '../agenda'
 
 const scheduleFormSchema = z.object({
     date: z.string({ message: 'date is missing' }),
@@ -23,7 +24,7 @@ const scheduleFormSchema = z.object({
 
 type ScheduleFormData = z.infer<typeof scheduleFormSchema>
 
-export default function Schedule() {
+export default function ScheduleComponent() {
     const [selectedHour, setSelectedHour] = useState<undefined | number>(
         undefined
     )
@@ -39,12 +40,12 @@ export default function Schedule() {
         resolver: zodResolver(scheduleFormSchema),
         defaultValues: {
             date: new Date().toISOString().split('T')[0],
-            // time: 8,
-            // client: '',
+            time: 8,
+            client: 'caio',
         },
     })
 
-    async function handleCreateSchedule(data: ScheduleFormData) {
+    async function handleCreateSchedule(data: ScheduleFormData) {        
         try {
             const response = await fetch('/system/makeSchedule', {
                 method: 'POST',
@@ -53,8 +54,13 @@ export default function Schedule() {
             
             reset({client: ''})
             setSelectedHour(undefined)
-            queryClient.setQueryData(['schedules'], cache => {
-                console.log(cache)
+
+            const { newSchedule } = await response.json()
+
+            queryClient.setQueryData(['schedules', data.date], (cache: Array<Schedule>) => {
+                const res: Array<Schedule> = [...cache, {clientName: newSchedule.clientName, createdAt: newSchedule.createdAt, id: newSchedule.id, updatedAt: newSchedule.updatedAt, userId: newSchedule.userId, date: new Date(newSchedule.date)}]
+
+                return res
             })
         } catch (error) {
             console.warn(error)
