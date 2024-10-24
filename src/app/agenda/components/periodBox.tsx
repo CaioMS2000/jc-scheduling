@@ -2,18 +2,20 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { CloudSun, Moon, Sun } from 'lucide-react'
 import { workingHours, workingPeriodLabels } from '@/app/constants'
+import { Schedule } from '..'
 
 type Period = (typeof workingPeriodLabels)[number]
 
 export interface PeriodBoxProps extends React.HTMLAttributes<HTMLDivElement> {
     children?: React.ReactNode
     period: Period
+    schedules: Schedule[]
 }
 
 const periodIconsOptions = [Sun, CloudSun, Moon]
 
 const PeriodBox = React.forwardRef<HTMLDivElement, PeriodBoxProps>(
-    ({ className, children, period, ...props }, ref) => {
+    ({ className, children, period, schedules, ...props }, ref) => {
         const periodIndex = workingPeriodLabels.indexOf(period)
         const PeriodIcon = periodIconsOptions[periodIndex]
         const periodAllHours = workingHours[periodIndex]
@@ -41,11 +43,20 @@ const PeriodBox = React.forwardRef<HTMLDivElement, PeriodBoxProps>(
                         {lastHour.toString().padStart(2, '0')}h
                     </p>
                 </header>
-                <section className="p-5">
-                    <div className="inline-flex gap-2">
-                        <strong>13:00</strong>
-                        <p>Caio Marques</p>
-                    </div>
+                <section className="p-5 flex flex-col gap-2">
+                    {schedules.map(schedule => {
+                        const hour = schedule.date.getHours().toString().padStart(2, '0')
+
+                        return (
+                            <div
+                                key={schedule.id}
+                                className="inline-flex gap-2"
+                            >
+                                <strong>{hour} : 00</strong>
+                                <p>{schedule.clientName}</p>
+                            </div>
+                        )
+                    })}
                 </section>
                 {children}
             </div>

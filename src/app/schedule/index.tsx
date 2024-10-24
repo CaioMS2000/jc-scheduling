@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { getCookie } from 'cookies-next'
 import { useEffect, useState } from 'react'
 import TimeButton from './components/timeButton'
+import { queryClient } from '@/lib/react-query'
 
 const scheduleFormSchema = z.object({
     date: z.string({ message: 'date is missing' }),
@@ -44,7 +45,20 @@ export default function Schedule() {
     })
 
     async function handleCreateSchedule(data: ScheduleFormData) {
-        console.log({...data, username: usernameCookie})
+        try {
+            const response = await fetch('/system/makeSchedule', {
+                method: 'POST',
+                body: JSON.stringify({ ...data, username: usernameCookie }),
+            })
+            
+            reset({client: ''})
+            setSelectedHour(undefined)
+            queryClient.setQueryData(['schedules'], cache => {
+                console.log(cache)
+            })
+        } catch (error) {
+            console.warn(error)
+        }
     }
 
     // useEffect(() => {
@@ -112,7 +126,9 @@ export default function Schedule() {
                                                         selectedHour === hour
                                                     }
                                                     hour={hour}
-                                                    onSelectTime={setSelectedHour}
+                                                    onSelectTime={
+                                                        setSelectedHour
+                                                    }
                                                 >
                                                     {hour} : 00
                                                 </TimeButton>
