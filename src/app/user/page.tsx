@@ -65,9 +65,6 @@ export default function Register() {
                 }),
             })
 
-            console.log(response.redirected)
-            console.log(response.url)
-
             if(response.redirected && response.url) {
                 router.push(response.url)
             }

@@ -3,8 +3,13 @@
 import { InputElement, InputIcon, InputRoot } from '@/components/input'
 import { SquareUser } from 'lucide-react'
 import { useState } from 'react'
+import { UseFormRegisterReturn } from 'react-hook-form'
 
-export default function UsernameInput() {
+interface UsernameInputProps {
+    hookFormReference: UseFormRegisterReturn
+}
+
+export default function UsernameInput({hookFormReference}: UsernameInputProps) {
     const [isFocused, setIsFocused] = useState(false)
 
     return (
@@ -15,6 +20,7 @@ export default function UsernameInput() {
             <InputElement
                 placeholder="Nome do cliente"
                 onIsFocused={setIsFocused}
+                {...hookFormReference}
             />
         </InputRoot>
     )
