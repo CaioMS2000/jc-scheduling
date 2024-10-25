@@ -72,8 +72,16 @@ export default function ScheduleComponent() {
     }
 
     useEffect(() => {
-        console.warn('errors')
-        console.warn(errors)
+        const isEmpty = (obj: Record<string, unknown> | null | undefined): boolean => {
+            return obj != null && Object.keys(obj).length === 0;
+          };
+          
+
+        if(errors && !isEmpty){
+
+            console.warn('errors')
+            console.warn(errors)
+        }
     }, [errors])
 
     return (
