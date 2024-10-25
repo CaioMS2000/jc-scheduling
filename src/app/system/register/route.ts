@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
         const {newUser} = await register({ password, username })
 
-        return NextResponse.redirect(new URL(`/user?username=${newUser.username}`, 'http://localhost:3000'))
+        return NextResponse.redirect(new URL(`/user?username=${newUser.username}`, request.url))
     } catch (error) {
         if (error instanceof Error) {
             return NextResponse.json(error.message, {
