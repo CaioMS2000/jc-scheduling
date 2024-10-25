@@ -8,7 +8,6 @@ export async function middleware(request: NextRequest) {
     
     if(!usernameCookie) return NextResponse.redirect(new URL('/user', request.url));
     
-    console.log('middleware acessado por: ', usernameCookie?.value)
     //   return NextResponse.redirect(new URL('/home', request.url))
 }
 

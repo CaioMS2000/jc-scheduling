@@ -52,12 +52,16 @@ export default function ScheduleComponent() {
                 body: JSON.stringify({ ...data, username: usernameCookie }),
             })
             
-            reset({client: ''})
+            reset({client: '', time: 0})
             setSelectedHour(undefined)
 
             const { newSchedule } = await response.json()
 
-            queryClient.setQueryData(['schedules', data.date], (cache: Array<Schedule>) => {
+            queryClient.setQueryData(['schedules', data.date], (cache: Array<Schedule>|undefined) => {
+                if (!cache) {
+                    return []
+                }
+
                 const res: Array<Schedule> = [...cache, {clientName: newSchedule.clientName, createdAt: newSchedule.createdAt, id: newSchedule.id, updatedAt: newSchedule.updatedAt, userId: newSchedule.userId, date: new Date(newSchedule.date)}]
 
                 return res
@@ -67,10 +71,10 @@ export default function ScheduleComponent() {
         }
     }
 
-    // useEffect(() => {
-    //     console.log('errors')
-    //     console.log(errors)
-    // }, [errors])
+    useEffect(() => {
+        console.warn('errors')
+        console.warn(errors)
+    }, [errors])
 
     return (
         <>
@@ -92,12 +96,6 @@ export default function ScheduleComponent() {
                                 className="text-styles-purple"
                             />
                         </InputIcon>
-                        {/* <InputElement
-                            type="date"
-                            defaultValue={
-                                new Date().toISOString().split('T')[0]
-                            }
-                        /> */}
                         <InputElement type="date" {...register('date')} />
                     </InputRoot>
                 </Label>
@@ -118,12 +116,6 @@ export default function ScheduleComponent() {
                                         name="time"
                                         render={({ field }) => {
                                             return (
-                                                // <Button type="button" className="bg-zinc-700 border-2 border-zinc-500 font-light text-zinc-200 w-16 lg:w-20 focus:border-styles-purple focus:text-styles-purple" onClick={() => {
-                                                //     console.log('clicked hour: ', hour)
-                                                //     field.onChange(hour)
-                                                // }}>
-                                                //     {hour} : 00
-                                                // </Button>
                                                 <TimeButton
                                                     onClick={() => {
                                                         field.onChange(hour)

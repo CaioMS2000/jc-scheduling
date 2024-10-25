@@ -44,9 +44,6 @@ export default function Register() {
 
             reset({password: ''})
 
-            console.log(response.redirected)
-            console.log(response.url)
-
             if(response.redirected && response.url) {
                 router.push(response.url)
             }

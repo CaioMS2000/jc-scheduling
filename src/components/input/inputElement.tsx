@@ -12,17 +12,18 @@ const InputElement = React.forwardRef<HTMLInputElement, InputProps>(
     ({ className, type, onIsFocused, ...props }, ref) => {
         const inputRef = React.useRef<HTMLInputElement>(null)
 
-        function handleClick() {
-            if (
-                ref &&
-                typeof ref !== 'function' &&
-                ref?.current &&
-                type === 'date'
-            ) {
-                ;(ref.current as HTMLInputElement).showPicker()
-            } else if (type === 'date') {
-                inputRef.current?.showPicker()
-            }
+        function handleClick(event: React.MouseEvent<HTMLInputElement>) {
+            event.currentTarget.showPicker()
+            // if (
+            //     ref &&
+            //     typeof ref !== 'function' &&
+            //     ref?.current &&
+            //     type === 'date'
+            // ) {
+            //     ;(ref.current as HTMLInputElement).showPicker()
+            // } else if (type === 'date') {
+            //     inputRef.current?.showPicker()
+            // }
         }
 
         function handleFocus(){
