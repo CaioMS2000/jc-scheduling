@@ -40,8 +40,8 @@ export default function ScheduleComponent() {
         resolver: zodResolver(scheduleFormSchema),
         defaultValues: {
             date: new Date().toISOString().split('T')[0],
-            time: 8,
-            client: 'caio',
+            time: 0,
+            client: '',
         },
     })
 
