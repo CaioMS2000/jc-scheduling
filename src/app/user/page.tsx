@@ -14,7 +14,7 @@ import PasswordInput from './components/passwordInput'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 const userFormSchema = z.object({
@@ -24,7 +24,7 @@ const userFormSchema = z.object({
 
 type UserFormData = z.infer<typeof userFormSchema>
 
-export default function Register() {
+function User() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const username = searchParams.get('username')
@@ -124,5 +124,13 @@ export default function Register() {
                 </Card>
             </div>
         </>
+    )
+}
+
+export default function Component() {
+    return (
+        <Suspense>
+            <User />
+        </Suspense>
     )
 }
