@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
             path: '/',
         })
 
-        return NextResponse.redirect(new URL('/', request.url))
+        return NextResponse.redirect(new URL('/', request.url), 303)
     } catch (error) {
         if (error instanceof Error) {
             return NextResponse.json(error.message, {
