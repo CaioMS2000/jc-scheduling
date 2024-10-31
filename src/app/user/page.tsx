@@ -19,6 +19,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import dayjs from 'dayjs'
 import ptBR from 'dayjs/locale/pt-br'
 import utc from 'dayjs/plugin/utc'
+import { toast } from 'sonner'
 
 dayjs.extend(utc)
 dayjs.locale(ptBR)
@@ -49,12 +50,13 @@ function User() {
             })
 
             reset({password: ''})
+            toast.success("Usuário registrado com sucesso!\nAgora você pode fazer login")
 
             if(response.redirected && response.url) {
                 router.push(response.url)
             }
         } catch (error) {
-            console.warn(error)
+            toast.error("Erro ao se registrar")
         }
     }
 
@@ -72,7 +74,7 @@ function User() {
                 router.push(response.url)
             }
         } catch (error) {
-            console.warn(error)
+            toast.error("Erro ao logar. Se você nunca  se registrou, clique em 'Registrar'")
         }
     }
 

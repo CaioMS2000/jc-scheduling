@@ -1,19 +1,18 @@
 'use client'
 import { Label } from '@/components/ui/label'
-import { workingHours, workingPeriodLabels } from '../constants'
 import { Button } from '@/components/ui/button'
-import { Calendar } from 'lucide-react'
+import { Calendar, LoaderCircle } from 'lucide-react'
 import { InputElement, InputIcon, InputRoot } from '@/components/input'
 import UsernameInput from './components/usernameInput'
 import { z } from 'zod'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getCookie } from 'cookies-next'
 import { useEffect, useState } from 'react'
-import TimeButton from './components/timeButton'
 import { queryClient } from '@/lib/react-query'
 import { Schedule } from '../agenda'
 import ScheduleTimeInput from './components/scheduleTimeInput'
+import { toast } from 'sonner'
 
 const scheduleFormSchema = z.object({
     date: z.string({ message: 'date is missing' }),
@@ -33,10 +32,8 @@ export default function ScheduleComponent() {
     const {
         register,
         handleSubmit,
-        setValue,
-        reset,
-        control,
-        formState: { errors },
+        reset,        
+        formState: { errors, isSubmitting },
     } = useForm<ScheduleFormData>({
         resolver: zodResolver(scheduleFormSchema),
         defaultValues: {
@@ -46,42 +43,54 @@ export default function ScheduleComponent() {
         },
     })
 
-    async function handleCreateSchedule(data: ScheduleFormData) {        
+    async function handleCreateSchedule(data: ScheduleFormData) {
         try {
             const response = await fetch('/system/makeSchedule', {
                 method: 'POST',
                 body: JSON.stringify({ ...data, username: usernameCookie }),
             })
-            
-            reset({client: '', time: ''})
+
+            reset({ client: '', time: '' })
             setSelectedHour(undefined)
 
             const { newSchedule } = await response.json()
 
-            queryClient.setQueryData(['schedules', data.date], (cache: Array<Schedule>|undefined) => {
-                if (!cache) {
-                    return []
+            queryClient.setQueryData(
+                ['schedules', data.date],
+                (cache: Array<Schedule> | undefined) => {
+                    if (!cache) {
+                        return []
+                    }
+
+                    const res: Array<Schedule> = [
+                        ...cache,
+                        {
+                            clientName: newSchedule.clientName,
+                            createdAt: newSchedule.createdAt,
+                            id: newSchedule.id,
+                            updatedAt: newSchedule.updatedAt,
+                            userId: newSchedule.userId,
+                            date: new Date(newSchedule.date),
+                        },
+                    ]
+
+                    return res
                 }
-
-                const res: Array<Schedule> = [...cache, {clientName: newSchedule.clientName, createdAt: newSchedule.createdAt, id: newSchedule.id, updatedAt: newSchedule.updatedAt, userId: newSchedule.userId, date: new Date(newSchedule.date)}]
-
-                return res
-            })
+            )
         } catch (error) {
             console.warn(error)
         }
     }
 
     useEffect(() => {
-        const isEmpty = (obj: Record<string, unknown> | null | undefined): boolean => {
-            return obj != null && Object.keys(obj).length === 0;
-          };
-          
+        const isEmpty = (
+            obj: Record<string, unknown> | null | undefined
+        ): boolean => {
+            return obj != null && Object.keys(obj).length === 0
+        }
 
-        if(errors && !isEmpty){
-
-            console.warn('errors')
-            console.warn(errors)
+        if (errors && !isEmpty(errors)) {
+            toast.error(JSON.stringify(errors))
         }
     }, [errors])
 
@@ -112,43 +121,7 @@ export default function ScheduleComponent() {
                     <h3>
                         <strong>Horário</strong>
                     </h3>
-                    <ScheduleTimeInput
-                    hookFormReference={register('time')}
-                    />
-                    {/* {workingHours.map((period, i) => (
-                        <div key={i} className="d">
-                            <p className="text-zinc-500">
-                                {workingPeriodLabels[i]}
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                {period.map(hour => (
-                                    <Controller
-                                        key={hour}
-                                        control={control}
-                                        name="time"
-                                        render={({ field }) => {
-                                            return (
-                                                <TimeButton
-                                                    onClick={() => {
-                                                        field.onChange(hour)
-                                                    }}
-                                                    isSelected={
-                                                        selectedHour === hour
-                                                    }
-                                                    hour={hour}
-                                                    onSelectTime={
-                                                        setSelectedHour
-                                                    }
-                                                >
-                                                    {hour} : 00
-                                                </TimeButton>
-                                            )
-                                        }}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    ))} */}
+                    <ScheduleTimeInput hookFormReference={register('time')} />
                 </div>
                 <Label className="text-zinc-300 flex flex-col gap-2 mb-5">
                     <p className="mb-2">
@@ -156,8 +129,15 @@ export default function ScheduleComponent() {
                     </p>
                     <UsernameInput hookFormReference={register('client')} />
                 </Label>
-                <Button type="submit" className="bg-styles-purple text-white">
+                <Button
+                    type="submit"
+                    className="bg-styles-purple text-white flex items-center gap-2"
+                    disabled={isSubmitting}
+                >
                     <strong>AGENDAR</strong>
+                    {isSubmitting && (
+                        <LoaderCircle size={20} className="animate-spin" />
+                    )}
                 </Button>
             </form>
         </>

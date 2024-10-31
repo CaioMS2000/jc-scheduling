@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Providers from './providers'
+import { Toaster } from '@/components/ui/sonner'
 
 export const metadata: Metadata = {
     title: 'JG - Agenda',
@@ -20,6 +21,7 @@ export default function RootLayout({
             >
                 <Providers>
                     {children}
+                    <Toaster />
                 </Providers>
             </body>
         </html>

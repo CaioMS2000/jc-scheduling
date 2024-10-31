@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
                 date: scheduleDate.toDate(),
                 userId: user.id,
             }
-        })
+        })        
 
         return NextResponse.json({newSchedule})
     } catch (error) {
