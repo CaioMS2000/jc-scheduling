@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
+import dayjs from 'dayjs'
+import ptBR from 'dayjs/locale/pt-br'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(utc)
+dayjs.locale(ptBR)
 
 const querySchema = z.object({
     username: z.string(),
@@ -22,18 +28,14 @@ export async function GET(request: NextRequest) {
             })
         }
 
-        const startOfDay = new Date(date);
-        const endOfDay = new Date(date);
-
-        startOfDay.setHours(0, 0, 0, 0);
-        endOfDay.setHours(23, 59, 59, 999);
-
+        const startOfDay = dayjs(date).set('hour', 0).set('minute', 0).set('second', 0)
+        const endOfDay = dayjs(date).set('hour', 23).set('minute', 59).set('second', 59)
         const schedules = await prisma.scheduling.findMany({
             where: {
                 userId: user.id,
                 date:{
-                    gte: startOfDay,
-                    lte: endOfDay
+                    gte: startOfDay.toDate(),
+                    lte: endOfDay.toDate()
                 }
             },
 

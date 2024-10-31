@@ -13,10 +13,11 @@ import { useEffect, useState } from 'react'
 import TimeButton from './components/timeButton'
 import { queryClient } from '@/lib/react-query'
 import { Schedule } from '../agenda'
+import ScheduleTimeInput from './components/scheduleTimeInput'
 
 const scheduleFormSchema = z.object({
     date: z.string({ message: 'date is missing' }),
-    time: z.number({ message: 'time is missing' }).min(8).max(20),
+    time: z.string({ message: 'time is missing' }),
     client: z
         .string({ message: 'client is missing' })
         .min(3, { message: 'client name is too short' }),
@@ -40,7 +41,7 @@ export default function ScheduleComponent() {
         resolver: zodResolver(scheduleFormSchema),
         defaultValues: {
             date: new Date().toISOString().split('T')[0],
-            time: 0,
+            time: '',
             client: '',
         },
     })
@@ -52,7 +53,7 @@ export default function ScheduleComponent() {
                 body: JSON.stringify({ ...data, username: usernameCookie }),
             })
             
-            reset({client: '', time: 0})
+            reset({client: '', time: ''})
             setSelectedHour(undefined)
 
             const { newSchedule } = await response.json()
@@ -97,7 +98,7 @@ export default function ScheduleComponent() {
                     <p>
                         <strong>Data</strong>
                     </p>
-                    <InputRoot className="p-2 max-w-60">
+                    <InputRoot className="p-2 w-52">
                         <InputIcon>
                             <Calendar
                                 size={40}
@@ -109,9 +110,12 @@ export default function ScheduleComponent() {
                 </Label>
                 <div className="flex flex-col gap-3 justify-center mb-5">
                     <h3>
-                        <strong>Horários</strong>
+                        <strong>Horário</strong>
                     </h3>
-                    {workingHours.map((period, i) => (
+                    <ScheduleTimeInput
+                    hookFormReference={register('time')}
+                    />
+                    {/* {workingHours.map((period, i) => (
                         <div key={i} className="d">
                             <p className="text-zinc-500">
                                 {workingPeriodLabels[i]}
@@ -144,7 +148,7 @@ export default function ScheduleComponent() {
                                 ))}
                             </div>
                         </div>
-                    ))}
+                    ))} */}
                 </div>
                 <Label className="text-zinc-300 flex flex-col gap-2 mb-5">
                     <p className="mb-2">

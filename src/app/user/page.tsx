@@ -16,6 +16,12 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import dayjs from 'dayjs'
+import ptBR from 'dayjs/locale/pt-br'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(utc)
+dayjs.locale(ptBR)
 
 const userFormSchema = z.object({
     username: z.string(),

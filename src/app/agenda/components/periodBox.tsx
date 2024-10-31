@@ -3,6 +3,10 @@ import { cn } from '@/lib/utils'
 import { CloudSun, Moon, Sun } from 'lucide-react'
 import { workingHours, workingPeriodLabels } from '@/app/constants'
 import { Schedule } from '..'
+import dayjs from 'dayjs'
+import ptBR from 'dayjs/locale/pt-br'
+
+dayjs.locale(ptBR)
 
 type Period = (typeof workingPeriodLabels)[number]
 
@@ -45,14 +49,15 @@ const PeriodBox = React.forwardRef<HTMLDivElement, PeriodBoxProps>(
                 </header>
                 <section className="p-5 flex flex-col gap-2">
                     {schedules.sort((a, b) => a.date.getTime() - b.date.getTime()).map(schedule => {
-                        const hour = schedule.date.getHours().toString().padStart(2, '0')
+                        const hour = dayjs(schedule.date).get('hour').toString().padStart(2, '0')
+                        const minute = dayjs(schedule.date).get('minute').toString().padStart(2, '0')
 
                         return (
                             <div
                                 key={schedule.id}
                                 className="inline-flex gap-2"
                             >
-                                <strong>{hour} : 00</strong>
+                                <strong>{hour} : {minute}</strong>
                                 <p>{schedule.clientName}</p>
                             </div>
                         )
