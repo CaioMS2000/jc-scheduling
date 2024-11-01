@@ -1,6 +1,6 @@
 'use client'
 import { InputElement, InputIcon, InputRoot } from '@/components/input'
-import { Calendar, LoaderCircle } from 'lucide-react'
+import { Calendar, LoaderCircle, Sun } from 'lucide-react'
 import { workingPeriodLabels, workingHours } from '../constants'
 import { PeriodBox } from './components/periodBox'
 import { useQuery } from '@tanstack/react-query'
@@ -9,6 +9,7 @@ import { getCookie } from 'cookies-next'
 import { toast } from 'sonner'
 import dayjs from 'dayjs'
 import ptBR from 'dayjs/locale/pt-br'
+import { Skeleton } from '@/components/ui/skeleton'
 
 dayjs.locale(ptBR)
 
@@ -94,13 +95,27 @@ export default function Agenda() {
                 </header>
                 <main className="flex-1 flex flex-col gap-3">
                     {(isFetching || isPending) && (
-                        <LoaderCircle
-                            size={40}
-                            className="animate-spin mx-auto"
-                        />
+                        <>
+                            {/* <LoaderCircle
+                                size={40}
+                                className="animate-spin mx-auto"
+                            /> */}
+                            {Array.from({ length: 3 }).map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="flex flex-col border border-zinc-700 rounded-md text-muted-foreground"
+                                >
+                                    <header className="w-full flex justify-between items-center p-2 border-b-[1px] border-zinc-700">
+                                        <Skeleton className="w-48 h-5 rounded-full bg-muted/25" />
+                                    </header>
+                                    <div className="flex p-2 alint-center">
+                                        <Skeleton className="w-20 h-5 rounded-full bg-muted/25" />
+                                    </div>
+                                </div>
+                            ))}
+                        </>
                     )}
-                    {!isFetching &&
-                        !isPending &&
+                    {!isFetching && !isPending && (
                         Array.isArray(schedules) &&
                         workingPeriodLabels.map((period, i) => {
                             const workingHoursOfPeriod = workingHours[i]
@@ -116,10 +131,10 @@ export default function Agenda() {
                                     key={period}
                                     period={period}
                                     schedules={schedulesOfPeriod}
-                                    className=""
-                                ></PeriodBox>
+                                />
                             )
-                        })}
+                        })
+                    )}
                 </main>
             </div>
         </>
