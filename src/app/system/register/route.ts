@@ -28,6 +28,8 @@ export async function POST(request: NextRequest) {
             })
         }
 
-        throw error
+        return NextResponse.json(error, {
+            status: 400,
+        })
     }
 }

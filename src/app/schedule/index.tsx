@@ -50,6 +50,10 @@ export default function ScheduleComponent() {
                 body: JSON.stringify({ ...data, username: usernameCookie }),
             })
 
+            if (!response.ok) {
+                throw new Error(`${response.statusText}`);
+            }
+
             reset({ client: '', time: '' })
             setSelectedHour(undefined)
 
@@ -77,6 +81,8 @@ export default function ScheduleComponent() {
                     return res
                 }
             )
+
+            toast.success('Agendamento criado')
         } catch (error) {
             toast.error(JSON.stringify(error))
         }

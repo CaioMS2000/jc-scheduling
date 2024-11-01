@@ -49,7 +49,12 @@ function User() {
                 }),
             })
 
-            reset({password: ''})
+            console.log(response)
+            if (!response.ok) {
+                throw new Error(`${response.statusText}`);
+            }
+
+            // reset({password: ''})
             toast.success("Usuário registrado com sucesso!\nAgora você pode fazer login")
 
             if(response.redirected && response.url) {
@@ -69,6 +74,10 @@ function User() {
                     username: data.username,
                 }),
             })
+
+            if (!response.ok) {
+                throw new Error(`${response.statusText}`);
+            }
 
             if(response.redirected && response.url) {
                 router.push(response.url)
