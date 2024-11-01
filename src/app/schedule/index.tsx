@@ -78,7 +78,7 @@ export default function ScheduleComponent() {
                 }
             )
         } catch (error) {
-            console.warn(error)
+            toast.error(JSON.stringify(error))
         }
     }
 
