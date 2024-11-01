@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import dayjs from 'dayjs'
 import ptBR from 'dayjs/locale/pt-br'
 import { Skeleton } from '@/components/ui/skeleton'
+import { secondsToMilliseconds } from '../utils'
 
 dayjs.locale(ptBR)
 
@@ -35,6 +36,8 @@ export default function Agenda() {
     } = useQuery({
         queryKey: ['schedules', selectedDate],
         queryFn: async () => {
+            console.log('fetching')
+            console.log(selectedDate)
             const response = await fetch(
                 `/system/getSchedules?username=${usernameCookie}&date=${selectedDate}`,
                 {
@@ -54,7 +57,8 @@ export default function Agenda() {
             return res
         },
         enabled: Boolean(usernameCookie) && Boolean(selectedDate),
-        staleTime: Number.POSITIVE_INFINITY,
+        // staleTime: Number.POSITIVE_INFINITY,
+        staleTime: secondsToMilliseconds(60 * 5), // 5 minutes
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

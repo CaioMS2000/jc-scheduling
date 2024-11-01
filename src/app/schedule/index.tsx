@@ -29,9 +29,6 @@ const scheduleFormSchema = z.object({
 type ScheduleFormData = z.infer<typeof scheduleFormSchema>
 
 export default function ScheduleComponent() {
-    const [selectedHour, setSelectedHour] = useState<undefined | number>(
-        undefined
-    )
     const usernameCookie = getCookie('@jc-scheduling:username')
     const {
         register,
@@ -59,7 +56,6 @@ export default function ScheduleComponent() {
             }
 
             reset({ client: '', time: '' })
-            setSelectedHour(undefined)
 
             const { newSchedule } = await response.json()
 
@@ -67,7 +63,7 @@ export default function ScheduleComponent() {
                 ['schedules', data.date],
                 (cache: Array<Schedule> | undefined) => {
                     if (!cache) {
-                        return []
+                        return cache
                     }
 
                     const res: Array<Schedule> = [

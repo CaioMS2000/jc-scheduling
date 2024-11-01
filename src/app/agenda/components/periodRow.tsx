@@ -44,7 +44,7 @@ export default function PeriodRow({ schedule, ...props }: PeriodRowProps) {
             ['schedules', dayjs(schedule.date).format().split('T')[0]],
             (cache: Array<Schedule> | undefined) => {
                 if (!cache) {
-                    return []
+                    return cache
                 }
 
                 const res: Array<Schedule> = [
