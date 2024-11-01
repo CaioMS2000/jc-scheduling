@@ -58,7 +58,7 @@ export default function Agenda() {
         },
         enabled: Boolean(usernameCookie) && Boolean(selectedDate),
         // staleTime: Number.POSITIVE_INFINITY,
-        staleTime: secondsToMilliseconds(60 * 5), // 5 minutes
+        // staleTime: secondsToMilliseconds(60 * 5), // 5 minutes
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
