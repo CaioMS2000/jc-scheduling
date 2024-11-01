@@ -7,6 +7,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { getCookie } from 'cookies-next'
 import { toast } from 'sonner'
+import dayjs from 'dayjs'
+import ptBR from 'dayjs/locale/pt-br'
+
+dayjs.locale(ptBR)
 
 export interface Schedule {
     clientName: string
@@ -20,13 +24,13 @@ export interface Schedule {
 export default function Agenda() {
     const usernameCookie = getCookie('@jc-scheduling:username')
     const [selectedDate, setSelectedDate] = useState(
-        new Date().toISOString().split('T')[0]
+        dayjs().format().split('T')[0]
     )
     const {
         data: schedules,
         isPending,
         isFetching,
-        error
+        error,
     } = useQuery({
         queryKey: ['schedules', selectedDate],
         queryFn: async () => {
@@ -49,7 +53,7 @@ export default function Agenda() {
             return res
         },
         enabled: Boolean(usernameCookie) && Boolean(selectedDate),
-        staleTime: Number.POSITIVE_INFINITY
+        staleTime: Number.POSITIVE_INFINITY,
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,11 +61,7 @@ export default function Agenda() {
     }
 
     useEffect(() => {
-        console.log(selectedDate)
-    }, [selectedDate])
-    
-    useEffect(() => {
-        if(error){
+        if (error) {
             toast.error(error.message)
         }
     }, [error])

@@ -13,6 +13,10 @@ import { queryClient } from '@/lib/react-query'
 import { Schedule } from '../agenda'
 import ScheduleTimeInput from './components/scheduleTimeInput'
 import { toast } from 'sonner'
+import dayjs from 'dayjs'
+import ptBR from 'dayjs/locale/pt-br'
+
+dayjs.locale(ptBR)
 
 const scheduleFormSchema = z.object({
     date: z.string({ message: 'date is missing' }),
@@ -32,12 +36,12 @@ export default function ScheduleComponent() {
     const {
         register,
         handleSubmit,
-        reset,        
+        reset,
         formState: { errors, isSubmitting },
     } = useForm<ScheduleFormData>({
         resolver: zodResolver(scheduleFormSchema),
         defaultValues: {
-            date: new Date().toISOString().split('T')[0],
+            date: dayjs().format().split('T')[0],
             time: '',
             client: '',
         },
@@ -51,7 +55,7 @@ export default function ScheduleComponent() {
             })
 
             if (!response.ok) {
-                throw new Error(`${response.statusText}`);
+                throw new Error(`${response.statusText}`)
             }
 
             reset({ client: '', time: '' })
