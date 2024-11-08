@@ -39,7 +39,7 @@ export default function Agenda() {
             console.log('fetching')
             console.log(selectedDate)
             const response = await fetch(
-                `/system/getSchedules?username=${usernameCookie}&date=${selectedDate}`,
+                `/system/getSchedules?username=${usernameCookie}&date=${selectedDate}&timezoneOffset=${new Date().getTimezoneOffset() / 60}`,
                 {
                     method: 'GET',
                     headers: {
@@ -72,7 +72,7 @@ export default function Agenda() {
     }, [error])
     
     useEffect(() => {
-        console.log('client timezoneOffset', new Date().getTimezoneOffset())
+        console.log('client timezoneOffset', new Date().getTimezoneOffset()/60)
     })
 
     return (
