@@ -45,8 +45,17 @@ export async function GET(request: NextRequest) {
             },
 
         })
+        const diffTimezoneOffset = Number(timezoneOffset) - referenceTimezoneOffset
+        const diffIsPositive = diffTimezoneOffset > 0
 
-        return NextResponse.json({schedules})
+        return NextResponse.json({schedules: schedules.map((schedule) => {
+            const corredtedDate = diffIsPositive ? dayjs(schedule.date).add(diffTimezoneOffset, 'hour') : dayjs(schedule.date).subtract(diffTimezoneOffset * (-1), 'hour')
+
+            console.log('corredtedDate')
+            console.log(corredtedDate.format())
+            console.log(corredtedDate.toDate())
+            return {...schedule, date: corredtedDate.toDate()}
+        })})
     } catch (error) {
         if (error instanceof Error) {
             return NextResponse.json(error.message, {
