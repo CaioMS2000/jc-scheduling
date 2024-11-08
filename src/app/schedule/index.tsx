@@ -65,7 +65,7 @@ export default function ScheduleComponent() {
                     if (!cache) {
                         return cache
                     }
-
+                    console.log('aplicando essa data no cache: ', data)
                     const res: Array<Schedule> = [
                         ...cache,
                         {
