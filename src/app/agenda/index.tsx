@@ -36,8 +36,6 @@ export default function Agenda() {
     } = useQuery({
         queryKey: ['schedules', selectedDate],
         queryFn: async () => {
-            console.log('fetching')
-            console.log(selectedDate)
             const response = await fetch(
                 `/system/getSchedules?username=${usernameCookie}&date=${selectedDate}&timezoneOffset=${new Date().getTimezoneOffset() / 60}`,
                 {
@@ -70,10 +68,6 @@ export default function Agenda() {
             toast.error(error.message)
         }
     }, [error])
-    
-    useEffect(() => {
-        console.log('client timezoneOffset', new Date().getTimezoneOffset()/60)
-    })
 
     return (
         <>
