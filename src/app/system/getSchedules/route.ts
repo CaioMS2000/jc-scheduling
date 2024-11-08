@@ -11,7 +11,7 @@ dayjs.locale(ptBR)
 const querySchema = z.object({
     username: z.string(),
     date: z.string(),
-    timezoneOffset: z.number(),
+    timezoneOffset: z.string(),
 })
 
 export async function GET(request: NextRequest) {
