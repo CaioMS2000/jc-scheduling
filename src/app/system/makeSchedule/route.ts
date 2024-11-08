@@ -11,7 +11,7 @@ const bodySchema = z.object({
     username: z.string(),
     date: z.string(),
     time: z.string(),
-    timezoneOffset: z.string(),
+    timezoneOffset: z.number(),
 })
 
 export async function POST(request: NextRequest) {
