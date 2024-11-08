@@ -11,12 +11,13 @@ const bodySchema = z.object({
     username: z.string(),
     date: z.string(),
     time: z.string(),
+    timezoneOffset: z.string(),
 })
 
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const { client, username, date, time } = bodySchema.parse(body)
+        const { client, username, date, time, timezoneOffset } = bodySchema.parse(body)
         const [hour, minute] = time.split(':')
         const user = await prisma.user.findUnique({
             where: {
@@ -37,9 +38,13 @@ export async function POST(request: NextRequest) {
                 date: scheduleDate.toDate(),
                 userId: user.id,
             }
-        })        
+        })
+        const referenceTimezoneOffset = new Date().getTimezoneOffset() / 60
+        const diffTimezoneOffset = Number(timezoneOffset) - referenceTimezoneOffset
+        const diffIsPositive = diffTimezoneOffset > 0
+        const corredtedDate = diffIsPositive ? dayjs(newSchedule.date).add(diffTimezoneOffset, 'hour') : dayjs(newSchedule.date).subtract(diffTimezoneOffset * (-1), 'hour')
 
-        return NextResponse.json({newSchedule})
+        return NextResponse.json({newSchedule: {...newSchedule, date: corredtedDate.toDate()}})
     } catch (error) {
         if (error instanceof Error) {
             return NextResponse.json(error.message, {

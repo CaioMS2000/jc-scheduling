@@ -15,8 +15,10 @@ import ScheduleTimeInput from './components/scheduleTimeInput'
 import { toast } from 'sonner'
 import dayjs from 'dayjs'
 import ptBR from 'dayjs/locale/pt-br'
+import utc from 'dayjs/plugin/utc'
 
 dayjs.locale(ptBR)
+dayjs.extend(utc)
 
 const scheduleFormSchema = z.object({
     date: z.string({ message: 'date is missing' }),
@@ -48,7 +50,7 @@ export default function ScheduleComponent() {
         try {
             const response = await fetch('/system/makeSchedule', {
                 method: 'POST',
-                body: JSON.stringify({ ...data, username: usernameCookie }),
+                body: JSON.stringify({ ...data, date: dayjs(data.date).utc().toDate(), username: usernameCookie, timezoneOffset: new Date().getTimezoneOffset() / 60 }),
             })
 
             if (!response.ok) {
@@ -65,7 +67,7 @@ export default function ScheduleComponent() {
                     if (!cache) {
                         return cache
                     }
-                    console.log('aplicando essa data no cache: ', data)
+
                     const res: Array<Schedule> = [
                         ...cache,
                         {
@@ -74,7 +76,7 @@ export default function ScheduleComponent() {
                             id: newSchedule.id,
                             updatedAt: newSchedule.updatedAt,
                             userId: newSchedule.userId,
-                            date: new Date(data.date),
+                            date: new Date(newSchedule.date),
                         },
                     ]
 
