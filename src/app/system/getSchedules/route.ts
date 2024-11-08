@@ -16,6 +16,8 @@ const querySchema = z.object({
 
 export async function GET(request: NextRequest) {
     try {
+        console.log(request)
+        console.log("\n\n\n")
         console.log('server timezoneOffset', new Date().getTimezoneOffset()/60)
         const { username, date, timezoneOffset } = querySchema.parse(Object.fromEntries(request.nextUrl.searchParams))
         console.log('timezoneOffset from client', timezoneOffset)

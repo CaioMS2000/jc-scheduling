@@ -74,7 +74,7 @@ export default function ScheduleComponent() {
                             id: newSchedule.id,
                             updatedAt: newSchedule.updatedAt,
                             userId: newSchedule.userId,
-                            date: new Date(newSchedule.date),
+                            date: new Date(data.date),
                         },
                     ]
 
