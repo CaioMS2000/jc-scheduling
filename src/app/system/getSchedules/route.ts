@@ -15,6 +15,7 @@ const querySchema = z.object({
 
 export async function GET(request: NextRequest) {
     try {
+        console.log('server timezoneOffset', new Date().getTimezoneOffset())
         const { username, date } = querySchema.parse(Object.fromEntries(request.nextUrl.searchParams))
         const user = await prisma.user.findUnique({
             where: {

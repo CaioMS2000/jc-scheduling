@@ -70,6 +70,10 @@ export default function Agenda() {
             toast.error(error.message)
         }
     }, [error])
+    
+    useEffect(() => {
+        console.log('client timezoneOffset', new Date().getTimezoneOffset())
+    })
 
     return (
         <>
