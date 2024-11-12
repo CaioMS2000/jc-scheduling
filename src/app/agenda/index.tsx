@@ -1,6 +1,6 @@
 'use client'
 import { InputElement, InputIcon, InputRoot } from '@/components/input'
-import { Calendar, LoaderCircle, Sun } from 'lucide-react'
+import { Calendar } from 'lucide-react'
 import { workingPeriodLabels, workingHours } from '../constants'
 import { PeriodBox } from './components/periodBox'
 import { useQuery } from '@tanstack/react-query'
@@ -10,7 +10,6 @@ import { toast } from 'sonner'
 import dayjs from 'dayjs'
 import ptBR from 'dayjs/locale/pt-br'
 import { Skeleton } from '@/components/ui/skeleton'
-import { secondsToMilliseconds } from '../utils'
 
 dayjs.locale(ptBR)
 

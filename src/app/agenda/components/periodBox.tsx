@@ -1,13 +1,10 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { CloudSun, Moon, Sun, Trash2 } from 'lucide-react'
+import { CloudSun, Moon, Sun } from 'lucide-react'
 import { workingHours, workingPeriodLabels } from '@/app/constants'
 import { Schedule } from '..'
 import dayjs from 'dayjs'
 import ptBR from 'dayjs/locale/pt-br'
-import { getCookie } from 'cookies-next'
-import { toast } from 'sonner'
-import { queryClient } from '@/lib/react-query'
 import PeriodRow from './periodRow'
 
 dayjs.locale(ptBR)
